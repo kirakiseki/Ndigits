@@ -1,0 +1,34 @@
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html.dark {
+  background: #121212;
+}
+
+:root {
+  --c-primary: #0d828e;
+  --c-primary-deep: #08606a;
+  --c-ok: #1d9c9c;
+  --c-mis: #de7525;
+}
+
+.dark {
+  --c-ok: #0d8e8e;
+}
+
+td {
+  border-color: red;
+}
+
+.w-24 {
+  width: 6rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
