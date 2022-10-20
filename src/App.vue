@@ -15,7 +15,7 @@ onMounted(() => {
     <div flex="~ col">
       <div flex="~ center wrap" h-55>
         <IOMatrix />
-        <div i-carbon:arrow-right self-center />
+        <div i-carbon:arrow-right text-7 self-center />
         <IOMatrix />
       </div>
     </div>
