@@ -4,6 +4,7 @@ export interface Node {
   layer: number
   parent: Node | undefined
 }
+
 export const digits = ref(8)
 export const curveRate = ref(0.3)
 
@@ -16,4 +17,10 @@ export const targetStatus = ref<number[][]>(reactive(targetStatus8))
 export const result = ref<Node[]>([])
 export const Hfunc = ref<Function>(() => { })
 export const Gfunc = ref<Function>(() => { })
-
+export const flatten = ref<Function>((arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), []))
+export const unflatten = ref<Function>((arr: number[], side: number) => {
+  const result = []
+  for (let i = 0; i < arr.length; i += side)
+    result.push(arr.slice(i, i + side))
+  return result
+})
