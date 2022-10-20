@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     Solve: typeof import('./src/components/Solve.vue')['default']
     StartMatrix: typeof import('./src/components/StartMatrix.vue')['default']
     TargetMatrix: typeof import('./src/components/TargetMatrix.vue')['default']
+    Test: typeof import('./src/components/Test.vue')['default']
     Toggle: typeof import('./src/components/Toggle.vue')['default']
   }
 }
