@@ -15,6 +15,7 @@ export const targetStatus15 = [[1, 6, 3, 4], [5, 10, 7, 8], [9, 14, 11, 12], [13
 export const startStatus = ref<number[][]>(reactive(startStatus8))
 export const targetStatus = ref<number[][]>(reactive(targetStatus8))
 export const result = ref<Node[]>(reactive([]))
+export const close = ref<Node[]>(reactive([]))
 export const Hfunc = ref<Function>(() => { })
 export const Gfunc = ref<Function>(() => { })
 export const flatten = ref<Function>((arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), []))
@@ -26,32 +27,8 @@ export const unflatten = ref<Function>((arr: number[], side: number) => {
 })
 export const isSolved = ref(false)
 
-class PriorityQueue {
-  private data: Node[] = []
-  private compare: (a: Node, b: Node) => number
-
-  constructor(compare: (a: Node, b: Node) => number) {
-    this.compare = compare
-  }
-
-  push(...value: Node[]) {
-    for (const e of value)
-      this.data.push(e)
-    this.data.sort(this.compare)
-  }
-
-  pop() {
-    return this.data.shift()
-  }
-
-  get length() {
-    return this.data.length
-  }
-}
-
 export const solve = ref<Function>(
   () => {
-    console.log('start solving')
     Gfunc.value = (a: Node) => 0
     Hfunc.value = (a: Node) => 0
 
@@ -155,10 +132,11 @@ export const solve = ref<Function>(
     //   return count
     // }
 
-    function AStar(startNode: Node, targetNode: Node): Node[] {
+    function AStar(startNode: Node, targetNode: Node): { result: Node[]; close: Node[] } {
       // console.log('start')
+      // TODO when start=target display
       if (isEqual(startNode, targetNode))
-        return []
+        return { result: [startNode], close: [] }
       // if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2) {
       //   console.log('no solution')
       //   return []
@@ -181,9 +159,7 @@ export const solve = ref<Function>(
             node = node.parent
           }
           isSolved.value = true
-          console.log('solved')
-          console.log(result)
-          return result
+          return { result, close }
         }
 
         const nextMoveList = getNextMoveList(currentNode!)
@@ -196,9 +172,35 @@ export const solve = ref<Function>(
         // console.log(`pushed${nextMoveList.length}`)
         // console.log(`---e---${count++}`)
       }
-      return []
+      return { result: [], close: [] }
     }
 
-    result.value = AStar({ mat: startStatus.value, fvalue: Infinity, layer: 0, parent: undefined }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined }) // TODO fix init layer settings
+    const resp = AStar({ mat: startStatus.value, fvalue: Infinity, layer: 0, parent: undefined }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined }) // TODO fix init layer settings
+    result.value = resp.result
+    close.value = resp.close
+    // console.log(close.value)
   },
 )
+
+class PriorityQueue {
+  private data: Node[] = []
+  private compare: (a: Node, b: Node) => number
+
+  constructor(compare: (a: Node, b: Node) => number) {
+    this.compare = compare
+  }
+
+  push(...value: Node[]) {
+    for (const e of value)
+      this.data.push(e)
+    this.data.sort(this.compare)
+  }
+
+  pop() {
+    return this.data.shift()
+  }
+
+  get length() {
+    return this.data.length
+  }
+}
