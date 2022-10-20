@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Gfunc, Hfunc, digits, result, startStatus, targetStatus } from '~/global'
+import { Gfunc, Hfunc, digits, flatten, result, startStatus, targetStatus } from '~/global'
 import type { Node } from '~/global'
 
 Gfunc.value = (a: Node) => 0
@@ -116,20 +116,27 @@ function printNode(...a: Node[]): void {
   }
 }
 
-function AStar(startNode: Node, targetNode: Node): Node[] {
-  if (isEqual(startNode, targetNode)) // TODO 有解情况
-    return []
+function getReversedPairs(a: Node): number {
+  const aMat = flatten.value(a.mat)
+  let count = 0
+  for (let i = 0; i < aMat.length; i++) {
+    for (let j = i + 1; j < aMat.length; j++) {
+      if (aMat[i] > aMat[j])
+        count++
+    }
+  }
+  return count
+}
 
+function AStar(startNode: Node, targetNode: Node): Node[] {
+  if (isEqual(startNode, targetNode))
+    return []
+  if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2)
+    return []
   const open = new PriorityQueue((a, b) => a.fvalue! - b.fvalue!)
   const close: Node[] = []
   open.push(startNode)
-  // const count = 0
   while (open.length) {
-    // if (count > 50) {
-    //   console.log(open.length)
-    //   break
-    // }
-
     const currentNode = open.pop()
     // console.log('currentNode')
     // printNode(currentNode!)

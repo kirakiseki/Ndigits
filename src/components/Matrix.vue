@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { digits, startStatus } from '~/global'
-
-const flatten = (arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), [])
+import { digits, flatten, startStatus } from '~/global'
 </script>
 
 <template>
