@@ -36,8 +36,17 @@ export const isSolved = ref(false)
 
 export const solve = ref<Function>(
   () => {
-    Gfunc.value = (a: Node) => 0
-    Hfunc.value = (a: Node) => 0
+    Gfunc.value = (a: Node) => a.layer
+    Hfunc.value = (a: Node) => {
+      const arr = flatten.value(a.mat)
+      const target = flatten.value(targetStatus.value)
+      let count = 0
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] !== target[i])
+          count++
+      }
+      return count
+    }
 
     function isEqual(a: Node, b: Node): boolean {
       const side = digits.value === 8 ? 3 : 4

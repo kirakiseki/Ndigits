@@ -9,7 +9,7 @@ onMounted(() => {
 
 <template>
   <main font-sans p="x-4 y-10" text="center gray-700 dark:gray-200">
-    <Canvas />
+    <!-- <Canvas /> -->
     <!-- <Link :source="{ x: 400, y: 100 }" :target="{ x: 240, y: 300 }" /> -->
     <Header />
     <div flex="~ col">
