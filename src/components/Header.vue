@@ -7,7 +7,7 @@
     <a
       icon-btn i-carbon-logo-github
       rel="noreferrer"
-      href="https://github.com/kirakiseki"
+      href="https://github.com/kirakiseki/Ndigits"
       target="_blank"
       title="GitHub"
     />
