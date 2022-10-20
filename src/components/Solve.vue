@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Gfunc, Hfunc, digits, flatten, result, startStatus, targetStatus } from '~/global'
+import { Gfunc, Hfunc, digits, flatten, isSolved, result, startStatus, targetStatus } from '~/global'
 import type { Node } from '~/global'
 
 Gfunc.value = (a: Node) => 0
@@ -129,10 +129,13 @@ function getReversedPairs(a: Node): number {
 }
 
 function AStar(startNode: Node, targetNode: Node): Node[] {
+  console.log('start')
   if (isEqual(startNode, targetNode))
     return []
-  if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2)
-    return []
+  // if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2) {
+  //   console.log('no solution')
+  //   return []
+  // }// TODO
   const open = new PriorityQueue((a, b) => a.fvalue! - b.fvalue!)
   const close: Node[] = []
   open.push(startNode)
@@ -150,6 +153,7 @@ function AStar(startNode: Node, targetNode: Node): Node[] {
         result.push(node)
         node = node.parent
       }
+      isSolved.value = true
       return result
     }
 

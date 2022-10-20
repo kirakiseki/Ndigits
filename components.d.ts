@@ -8,7 +8,9 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Canvas: typeof import('./src/components/Canvas.vue')['default']
+    copy: typeof import('./src/components/IOMatrix copy.vue')['default']
     Counter: typeof import('./src/components/Counter.vue')['default']
+    Display: typeof import('./src/components/Display.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     IOMatrix: typeof import('./src/components/IOMatrix.vue')['default']
     Link: typeof import('./src/components/Link.vue')['default']
@@ -17,6 +19,8 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Settings: typeof import('./src/components/Settings.vue')['default']
     Solve: typeof import('./src/components/Solve.vue')['default']
+    StartMatrix: typeof import('./src/components/StartMatrix.vue')['default']
+    TargetMatrix: typeof import('./src/components/TargetMatrix.vue')['default']
     Toggle: typeof import('./src/components/Toggle.vue')['default']
   }
 }

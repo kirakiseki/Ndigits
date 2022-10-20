@@ -24,3 +24,6 @@ export const unflatten = ref<Function>((arr: number[], side: number) => {
     result.push(arr.slice(i, i + side))
   return result
 })
+export const isSolved = ref(false)
+
+export const solve = ref<Function>(() => { })

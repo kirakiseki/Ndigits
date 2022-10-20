@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import IOMatrix from './components/IOMatrix.vue'
-import { digits, startStatus, startStatus8, targetStatus, targetStatus8 } from '~/global'
+import { startStatus, startStatus8, targetStatus, targetStatus8 } from '~/global'
 
 onMounted(() => {
   startStatus.value = startStatus8
@@ -14,9 +13,9 @@ onMounted(() => {
     <Header />
     <div flex="~ col">
       <div flex="~ center wrap" h-55>
-        <IOMatrix />
+        <StartMatrix />
         <div i-carbon:arrow-right text-7 self-center />
-        <IOMatrix />
+        <TargetMatrix />
       </div>
     </div>
     <div flex="~ col">
@@ -31,10 +30,11 @@ onMounted(() => {
         </button>
       </div>
     </div>
+    <Display />
+    <!-- <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
     <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
     <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
-    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
-    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
+    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" /> -->
     <Canvas />
     <Solve />
   </main>
