@@ -25,6 +25,13 @@ export const unflatten = ref<Function>((arr: number[], side: number) => {
     result.push(arr.slice(i, i + side))
   return result
 })
+export const groupBy = ref<Function>((nodes: Node[]) => {
+  return nodes.reduce((acc: Node[][], node) => {
+    acc[node.layer] = acc[node.layer] || []
+    acc[node.layer].push(node)
+    return acc
+  }, [])
+})
 export const isSolved = ref(false)
 
 export const solve = ref<Function>(
@@ -136,7 +143,7 @@ export const solve = ref<Function>(
       // console.log('start')
       // TODO when start=target display
       if (isEqual(startNode, targetNode))
-        return { result: [startNode], close: [] }
+        return { result: [], close: [] }
       // if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2) {
       //   console.log('no solution')
       //   return []
@@ -175,7 +182,7 @@ export const solve = ref<Function>(
       return { result: [], close: [] }
     }
 
-    const resp = AStar({ mat: startStatus.value, fvalue: Infinity, layer: 0, parent: undefined }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined }) // TODO fix init layer settings
+    const resp = AStar({ mat: startStatus.value, fvalue: Infinity, layer: 1, parent: undefined }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined }) // TODO fix init layer settings
     result.value = resp.result
     close.value = resp.close
     // console.log(close.value)

@@ -9,6 +9,7 @@ onMounted(() => {
 
 <template>
   <main font-sans p="x-4 y-10" text="center gray-700 dark:gray-200">
+    <Canvas />
     <!-- <Link :source="{ x: 400, y: 100 }" :target="{ x: 240, y: 300 }" /> -->
     <Header />
     <div flex="~ col">
@@ -36,7 +37,6 @@ onMounted(() => {
     <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
     <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" /> -->
     <!-- <Test /> -->
-    <Canvas />
     <!-- <Solve /> -->
   </main>
 </template>

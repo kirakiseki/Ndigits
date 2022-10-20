@@ -93,10 +93,7 @@ const mask = computed(() => 'radial-gradient(circle, transparent, black);')
 </script>
 
 <template>
-  <div
-    class="top-0 bottom-0 left-0 right-0 pointer-events-none"
-    style="z-index: -1"
-  >
-    <canvas ref="el" width="400" height="400" />
+  <div class="fixed top-0 bottom-0 left-0 right-0 pointer-events-none" style="z-index: -1; -webkit-mask-image: radial-gradient(circle, transparent, black); --webkit-mask-image:radial-gradient(circle, transparent, black);">
+    <canvas ref="el" width="2880" height="1528" style="width: 1440px; height: 764px;" />
   </div>
 </template>
