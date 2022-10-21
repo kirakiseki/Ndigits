@@ -3,19 +3,25 @@ export interface Node {
   fvalue: number
   layer: number
   parent: Node | undefined
+  color: string
 }
 
 export const digits = ref(8)
-export const curveRate = ref(0.3)
+export const curveRate = ref(0.2)
+export const lineWidth = ref(3)
 export const baseFontSize = ref(16)
+export const interval = ref()
+export const scrollWidth = ref(0)
 export const startStatus8 = [[1, 0, 3], [4, 5, 6], [7, 2, 8]]
-export const targetStatus8 = [[5, 6, 4], [1, 0, 3], [7, 2, 8]]
+export const targetStatus8 = [[1, 3, 6], [2, 5, 0], [4, 7, 8]]
 export const startStatus15 = [[1, 0, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 2, 15]]
 export const targetStatus15 = [[1, 6, 3, 4], [5, 10, 7, 8], [9, 14, 11, 12], [13, 0, 2, 15]]
 export const startStatus = ref<number[][]>(reactive(startStatus8))
 export const targetStatus = ref<number[][]>(reactive(targetStatus8))
 export const result = ref<Node[]>(reactive([]))
 export const close = ref<Node[]>(reactive([]))
+export const nodes = ref<Node[]>(reactive([]))
+export const nodesLayer = ref<Node[][]>(reactive([[]]))
 export const Hfunc = ref<Function>(() => { })
 export const Gfunc = ref<Function>(() => { })
 export const flatten = ref<Function>((arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), []))
@@ -32,6 +38,14 @@ export const groupByLayer = ref<Function>((nodes: Node[]) => {
     return acc
   }, [])
 })
+
+export const randomColor = ref<Function>(() => {
+  let str = '#'
+  for (let i = 0; i < 6; i++)
+    str += Math.floor(Math.random() * 16).toString(16)
+  return str
+})
+
 export const isSolved = ref(false)
 
 export const solve = ref<Function>(
@@ -76,6 +90,7 @@ export const solve = ref<Function>(
         fvalue: a.fvalue,
         layer: a.layer,
         parent: a.parent,
+        color: a.color,
       }
     }
 
@@ -90,6 +105,7 @@ export const solve = ref<Function>(
         up.fvalue = Gfunc.value(up) + Hfunc.value(up)
         up.parent = a
         up.layer = a.layer + 1
+        up.color = randomColor.value()
         moveTarget.push(up)
       }
       if (blank.i < border) {
@@ -99,6 +115,7 @@ export const solve = ref<Function>(
         down.fvalue = Gfunc.value(down) + Hfunc.value(down)
         down.parent = a
         down.layer = a.layer + 1
+        down.color = randomColor.value()
         moveTarget.push(down)
       }
       if (blank.j > 0) {
@@ -108,6 +125,7 @@ export const solve = ref<Function>(
         left.fvalue = Gfunc.value(left) + Hfunc.value(left)
         left.parent = a
         left.layer = a.layer + 1
+        left.color = randomColor.value()
         moveTarget.push(left)
       }
       if (blank.j < border) {
@@ -117,54 +135,20 @@ export const solve = ref<Function>(
         right.fvalue = Gfunc.value(right) + Hfunc.value(right)
         right.parent = a
         right.layer = a.layer + 1
+        right.color = randomColor.value()
         moveTarget.push(right)
       }
       return moveTarget
     }
 
-    // function printNode(...a: Node[]): void {
-    //   for (const e of a) {
-    //     const side = digits.value === 8 ? 3 : 4
-    //     console.log('st--------------')
-    //     for (let i = 0; i < side; i++) {
-    //       let str = ''
-    //       for (let j = 0; j < side; j++)
-    //         str += `${e.mat[i][j]} `
-    //       console.log(str)
-    //     }
-    //     console.log(`end--------------layer${e.layer}`)
-    //   }
-    // }
-
-    // function getReversedPairs(a: Node): number {
-    //   const aMat = flatten.value(a.mat)
-    //   let count = 0
-    //   for (let i = 0; i < aMat.length; i++) {
-    //     for (let j = i + 1; j < aMat.length; j++) {
-    //       if (aMat[i] > aMat[j])
-    //         count++
-    //     }
-    //   }
-    //   return count
-    // }
-
     function AStar(startNode: Node, targetNode: Node): { result: Node[]; close: Node[] } {
-      // console.log('start')
-      // TODO when start=target display
       if (isEqual(startNode, targetNode))
-        return { result: [], close: [] }
-      // if (getReversedPairs(startNode) % 2 !== getReversedPairs(targetNode) % 2) {
-      //   console.log('no solution')
-      //   return []
-      // }// TODO
+        return { result: [startNode], close: [] }
       const open = new PriorityQueue((a, b) => a.fvalue! - b.fvalue!)
       const close: Node[] = []
       open.push(startNode)
       while (open.length) {
         const currentNode = open.pop()
-        // console.log('currentNode')
-        // printNode(currentNode!)
-        // console.log(`now/tar${isEqual(currentNode!, targetNode)}`)
         if (close.some(node => isEqual(node, currentNode!)))
           continue
         if (isEqual(currentNode!, targetNode)) {
@@ -181,20 +165,13 @@ export const solve = ref<Function>(
         const nextMoveList = getNextMoveList(currentNode!)
         close.push(currentNode!)
         open.push(...nextMoveList)
-        // for (const node of nextMoveList) {
-        //   console.log(`next/tar${isEqual(node, targetNode)}`)
-        //   printNode(node!)
-        // }
-        // console.log(`pushed${nextMoveList.length}`)
-        // console.log(`---e---${count++}`)
       }
       return { result: [], close: [] }
     }
 
-    const resp = AStar({ mat: startStatus.value, fvalue: 0, layer: 0, parent: undefined }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined }) // TODO fix init layer settings
+    const resp = AStar({ mat: startStatus.value, fvalue: 0, layer: 0, parent: undefined, color: randomColor.value() }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined, color: randomColor.value() }) // TODO fix init layer settings
     result.value = resp.result
     close.value = resp.close
-    // console.log(close.value)
   },
 )
 

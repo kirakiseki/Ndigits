@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     Display: typeof import('./src/components/Display.vue')['default']
     Header: typeof import('./src/components/Header.vue')['default']
     IOMatrix: typeof import('./src/components/IOMatrix.vue')['default']
+    LayerLink: typeof import('./src/components/LayerLink.vue')['default']
     Link: typeof import('./src/components/Link.vue')['default']
     Matrix: typeof import('./src/components/Matrix.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
