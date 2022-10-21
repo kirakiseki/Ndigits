@@ -14,11 +14,9 @@ watchEffect(() => {
   nodesLayer.value = groupByLayer.value(nodes.value)
   for (let layer of nodesLayer.value)
     layer = layer.sort((a, b) => a.fvalue - b.fvalue)
-  console.log(nodesLayer.value)
 })
 
 function initCanvas(canvas: HTMLCanvasElement, width = scrollWidth.value, height = baseFontSize.value * 7.5, _dpi?: number) {
-  console.log(`init${width}`)
   const ctx = canvas.getContext('2d')!
 
   const dpr = window.devicePixelRatio || 1
@@ -45,8 +43,6 @@ export default {
   },
   watch: {
     scrollWidth() {
-      console.log(`upd${scrollWidth.value}`)
-      console.log(`refresh${this.refreshCount}`)
       if (!this.hasDisplayed) {
         this.$refs.layerlink.reverse()
         this.hasDisplayed = !this.hasDisplayed
@@ -68,12 +64,10 @@ export default {
 
   unmounted() {
     clearInterval(interval.value)
-    console.log(`umn${scrollWidth.value}`)
     this.$refs.layerlink.reverse()
   },
 
   updated() {
-    console.log(`updated${scrollWidth.value}`)
     if (this.$refs.layerlink) {
       this.$refs.layerlink.reverse()
       for (let linkIndex = 0; linkIndex < this.$refs.layerlink.length; linkIndex++) {
@@ -81,17 +75,12 @@ export default {
         const canvas = el.value!
         const { ctx } = initCanvas(canvas, scrollWidth.value)
         ctx.lineWidth = lineWidth.value
-        // ctx.fillText(linkIndex, 10, 10, 50)
-        // const { width, height } = canvas
-        console.log(linkIndex)
         if (nodesLayer.value[linkIndex + 1]) {
           for (const nodeNextLayer of nodesLayer.value[linkIndex + 1]) {
             if (this.$refs?.mat) {
-              // getThisElement
               const nodeNextLayerEl = this.$refs?.mat.find((item: any) => {
                 return item.$data.n === nodeNextLayer
               }).$el
-              // getParentElement
               const nodeNextLayerParent = this.$refs?.mat.find((item: any) => {
                 return item.$data.n === nodeNextLayer.parent
               })
@@ -101,7 +90,6 @@ export default {
               ctx.strokeStyle = color
               const childX = nodeNextLayerEl.getBoundingClientRect().left - baseFontSize.value * 1 + nodeNextLayerEl.getBoundingClientRect().width / 2
               const parentX = nodeNextLayerParentEl.getBoundingClientRect().left - baseFontSize.value * 1 + nodeNextLayerEl.getBoundingClientRect().width / 2
-              console.log(`${childX} ${parentX}`)
               ctx.beginPath()
               ctx.moveTo(parentX, 0)
               const deltaY = curveRate.value * baseFontSize.value * 7.5
