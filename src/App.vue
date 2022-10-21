@@ -24,7 +24,7 @@ onMounted(() => {
         <Toggle />
       </div>
     </div>
-    <div flex="~ col">
+    <div flex="~ col" mb-10>
       <div flex="~ center wrap">
         <button btn p="x4 y2" @click="solve()">
           <span tracking-1 pl1>开始求解</span>
