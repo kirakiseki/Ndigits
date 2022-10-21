@@ -8,7 +8,6 @@ const nodes = ref<Node[]>(reactive([]))
 const nodesLayer = ref<Node[][]>(reactive([[]]))
 const interval = ref()
 const scrollWidth = ref(0)
-const refreshCount = ref(0)
 
 watchEffect(() => {
   nodes.value = [...new Set(result.value.concat(close.value).sort((a, b) => a.layer - b.layer))]
@@ -38,15 +37,26 @@ function initCanvas(canvas: HTMLCanvasElement, width = scrollWidth.value, height
 }
 
 export default {
+  data() {
+    return {
+      refreshCount: 0,
+      hasDisplayed: false,
+    }
+  },
   watch: {
     scrollWidth() {
       console.log(`upd${scrollWidth.value}`)
-      if (refreshCount.value < 2) {
+      console.log(`refresh${this.refreshCount}`)
+      if (!this.hasDisplayed) {
+        this.$refs.layerlink.reverse()
+        this.hasDisplayed = !this.hasDisplayed
+      }
+      if (this.refreshCount < 2) {
         this.$forceUpdate()
-        refreshCount.value++
+        this.refreshCount++
       }
       else {
-        refreshCount.value = 0
+        this.refreshCount = 0
       }
     },
   },
@@ -71,7 +81,7 @@ export default {
         const canvas = el.value!
         const { ctx } = initCanvas(canvas, scrollWidth.value)
         ctx.lineWidth = lineWidth.value
-        ctx.fillText(linkIndex, 10, 10, 50)
+        // ctx.fillText(linkIndex, 10, 10, 50)
         // const { width, height } = canvas
         console.log(linkIndex)
         if (nodesLayer.value[linkIndex + 1]) {
