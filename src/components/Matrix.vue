@@ -1,16 +1,21 @@
 <script setup lang="ts">
+import type { PropType } from 'vue'
+import type { Node } from '~/global'
 import { digits, flatten } from '~/global'
 
-const props = defineProps<{
-  node: Node
-}>()
+// const props = defineProps<{
+//   node: SolveNode
+// }>()
 </script>
 
 <script lang="ts">
 export default {
-  // props: {
-  //   node: Node,
-  // },
+  props: {
+    node: {
+      type: Object as PropType<Node>,
+      required: true,
+    },
+  },
   data() {
     return {
       n: this.$props.node,

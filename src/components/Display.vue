@@ -17,7 +17,7 @@ watchEffect(() => {
 
 export default {
   updated() {
-    // console.log(this.$refs?.mat?.[1]?.$data.n)
+    console.log(this.$refs?.mat?.[1]?.$data.n)
     // for (const index in this.$refs.layer as any) {
     //   if (this.$refs.layer[index].clientWidth < size.width) {
     //     this.$refs.layer[index].setAttribute('flex', '~ center')
