@@ -22,8 +22,6 @@ export const result = ref<Node[]>(reactive([]))
 export const close = ref<Node[]>(reactive([]))
 export const nodes = ref<Node[]>(reactive([]))
 export const nodesLayer = ref<Node[][]>(reactive([[]]))
-export const Hfunc = ref<Function>(() => { })
-export const Gfunc = ref<Function>(() => { })
 export const flatten = ref<Function>((arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), []))
 export const unflatten = ref<Function>((arr: number[], side: number) => {
   const result = []
@@ -31,6 +29,32 @@ export const unflatten = ref<Function>((arr: number[], side: number) => {
     result.push(arr.slice(i, i + side))
   return result
 })
+export const Hfunc1 = ref<Function>((a: Node) => {
+  const arr = flatten.value(a.mat)
+  const target = flatten.value(targetStatus.value)
+  let count = 0
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] !== target[i])
+      count++
+  }
+  return count
+})
+export const Hfunc2 = ref<Function>((a: Node) => {
+  const now: number[] = flatten.value(a.mat)
+  const target: number[] = flatten.value(targetStatus.value)
+  function getManhattanDis(a: number, nowPos: number): number {
+    const targetPos = target.indexOf(a)
+    const nowX = nowPos % digits.value
+    const nowY = Math.floor(nowPos / digits.value)
+    const targetX = targetPos % digits.value
+    const targetY = Math.floor(targetPos / digits.value)
+    return Math.abs(nowX - targetX) + Math.abs(nowY - targetY)
+  }
+  return now.reduce((sum, num, index) => sum + getManhattanDis(num, index), 0)
+})
+export const Hselect = ref(1)
+export const Hfunc = ref<Function>(Hfunc1.value)
+export const Gfunc = ref<Function>((a: Node) => a.layer)
 export const groupByLayer = ref<Function>((nodes: Node[]) => {
   return nodes.reduce((acc: Node[][], node) => {
     acc[node.layer] = acc[node.layer] || []
@@ -50,18 +74,6 @@ export const isSolved = ref(false)
 
 export const solve = ref<Function>(
   () => {
-    Gfunc.value = (a: Node) => a.layer
-    Hfunc.value = (a: Node) => {
-      const arr = flatten.value(a.mat)
-      const target = flatten.value(targetStatus.value)
-      let count = 0
-      for (let i = 0; i < arr.length; i++) {
-        if (arr[i] !== target[i])
-          count++
-      }
-      return count
-    }
-
     function isEqual(a: Node, b: Node): boolean {
       const side = digits.value === 8 ? 3 : 4
       for (let i = 0; i < side; i++) {

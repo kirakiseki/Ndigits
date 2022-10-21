@@ -21,7 +21,10 @@ onMounted(() => {
     </div>
     <div flex="~ col">
       <div flex="~ center wrap">
+        数码
         <Toggle />
+        <ToggleH />
+        H函数
       </div>
     </div>
     <div flex="~ col" mb-10>
@@ -32,11 +35,5 @@ onMounted(() => {
       </div>
     </div>
     <Display />
-    <!-- <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
-    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
-    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" />
-    <Matrix :data="[0, 4, 22, 87, 4, 9, 0, 7, 8]" :digits="digits" /> -->
-    <!-- <Test /> -->
-    <!-- <Solve /> -->
   </main>
 </template>

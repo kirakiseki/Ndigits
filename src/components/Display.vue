@@ -43,10 +43,9 @@ export default {
   },
   watch: {
     scrollWidth() {
-      if (!this.hasDisplayed) {
-        this.$refs.layerlink.reverse()
+      if (!this.hasDisplayed)
         this.hasDisplayed = !this.hasDisplayed
-      }
+
       if (this.refreshCount < 2) {
         this.$forceUpdate()
         this.refreshCount++
