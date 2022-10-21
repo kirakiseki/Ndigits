@@ -11,9 +11,10 @@ export const solve = ref<Function>(() => {...})
 ```
 
 # 运行截图
-![](https://s-gz-4165-image.oss.dogecdn.com/2022/10/21/截屏2022-10-21 22.03.43.png)
+<img width="991" alt="截屏2022-10-21 22 03 43" src="https://user-images.githubusercontent.com/38367158/197217061-676aca5a-7493-499d-a2f9-ba3eb8cd110b.png">
 
-![](https://s-gz-4165-image.oss.dogecdn.com/2022/10/21/截屏2022-10-21 22.03.56.png)
+
+<img width="676" alt="截屏2022-10-21 22 03 56" src="https://user-images.githubusercontent.com/38367158/197217072-72e1dd77-5730-43ae-8c7c-720a7a1d5b20.png">
 
 # 运行
 
