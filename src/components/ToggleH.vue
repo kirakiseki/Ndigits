@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Hfunc, Hfunc1, Hfunc2, Hselect, close, isSolved, result } from '~/global'
+import { Hfunc, Hfunc1, Hfunc2, Hselect, close, isSolved, open, result } from '~/global'
 </script>
 
 <script lang="ts">
@@ -10,6 +10,7 @@ export default {
       Hselect.value = Hselect.value === 1 ? 2 : 1
       result.value = []
       close.value = []
+      open.value = []
       isSolved.value = false
     },
   },

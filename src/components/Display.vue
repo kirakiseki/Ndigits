@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { baseFontSize, close, curveRate, groupByLayer, lineWidth, result } from '~/global'
+import { baseFontSize, close, curveRate, groupByLayer, lineWidth, open, result } from '~/global'
 import type { Node } from '~/global'
 </script>
 
@@ -10,10 +10,10 @@ const interval = ref()
 const scrollWidth = ref(0)
 
 watchEffect(() => {
-  nodes.value = [...new Set(result.value.concat(close.value).sort((a, b) => a.layer - b.layer))]
+  nodes.value = [...new Set(result.value.concat(close.value).concat(open.value).sort((a, b) => a.layer - b.layer))]
   nodesLayer.value = groupByLayer.value(nodes.value)
-  for (let layer of nodesLayer.value)
-    layer = layer.sort((a, b) => a.fvalue - b.fvalue)
+  // for (let layer of nodesLayer.value)
+  //   layer = layer.sort((a, b) => a.fvalue - b.fvalue)
 })
 
 function initCanvas(canvas: HTMLCanvasElement, width = scrollWidth.value, height = baseFontSize.value * 7.5, _dpi?: number) {
@@ -83,7 +83,7 @@ export default {
               const nodeNextLayerParent = this.$refs?.mat.find((item: any) => {
                 return item.$data.n === nodeNextLayer.parent
               })
-
+              // console.log(nodeNextLayerEl, nodeNextLayerParent)
               const color = nodeNextLayerParent.$data.n.color
               const nodeNextLayerParentEl = nodeNextLayerParent.$el
               ctx.strokeStyle = color
@@ -104,6 +104,7 @@ export default {
 </script>
 
 <template>
+  <p> 共拓展了{{ nodesLayer.length }}层, {{ nodes.length }} 个节点 </p>
   <div v-for="layer in nodesLayer" :key="layer" ref="layer" flex="~ col" items-start>
     <div flex>
       <Matrix v-for="node in layer" :key="node.fvalue" ref="mat" :node="node" />

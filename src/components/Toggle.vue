@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { close, digits, isSolved, result, startStatus, startStatus15, startStatus8, targetStatus, targetStatus15, targetStatus8 } from '~/global'
+import { close, digits, isSolved, open, result, startStatus, startStatus15, startStatus8, targetStatus, targetStatus15, targetStatus8 } from '~/global'
 </script>
 
 <script lang="ts">
@@ -11,6 +11,7 @@ export default {
       targetStatus.value = digits.value === 8 ? targetStatus8 : targetStatus15
       result.value = []
       close.value = []
+      open.value = []
       isSolved.value = false
     },
   },

@@ -20,6 +20,7 @@ export const startStatus = ref<number[][]>(reactive(startStatus8))
 export const targetStatus = ref<number[][]>(reactive(targetStatus8))
 export const result = ref<Node[]>(reactive([]))
 export const close = ref<Node[]>(reactive([]))
+export const open = ref<Node[]>(reactive([]))
 export const nodes = ref<Node[]>(reactive([]))
 export const nodesLayer = ref<Node[][]>(reactive([[]]))
 export const flatten = ref<Function>((arr: number[][]) => arr.reduce((acc, val) => acc.concat(val), []))
@@ -153,9 +154,9 @@ export const solve = ref<Function>(
       return moveTarget
     }
 
-    function AStar(startNode: Node, targetNode: Node): { result: Node[]; close: Node[] } {
+    function AStar(startNode: Node, targetNode: Node): { result: Node[]; close: Node[];open: Node[] } {
       if (isEqual(startNode, targetNode))
-        return { result: [startNode], close: [] }
+        return { result: [startNode], close: [], open: [] }
       const open = new PriorityQueue((a, b) => a.fvalue! - b.fvalue!)
       const close: Node[] = []
       open.push(startNode)
@@ -171,19 +172,20 @@ export const solve = ref<Function>(
             node = node.parent
           }
           isSolved.value = true
-          return { result, close }
+          return { result, close, open: [...open.nodes] }
         }
 
         const nextMoveList = getNextMoveList(currentNode!)
         close.push(currentNode!)
         open.push(...nextMoveList)
       }
-      return { result: [], close: [] }
+      return { result: [], close: [], open: [] }
     }
 
     const resp = AStar({ mat: startStatus.value, fvalue: 0, layer: 0, parent: undefined, color: randomColor.value() }, { mat: targetStatus.value, fvalue: Infinity, layer: Infinity, parent: undefined, color: randomColor.value() }) // TODO fix init layer settings
     result.value = resp.result
     close.value = resp.close
+    open.value = resp.open
   },
 )
 
@@ -207,5 +209,9 @@ class PriorityQueue {
 
   get length() {
     return this.data.length
+  }
+
+  get nodes() {
+    return this.data
   }
 }

@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { solve, startStatus, startStatus8, targetStatus, targetStatus8 } from '~/global'
+import { close, isSolved, open, result, solve, startStatus, startStatus8, targetStatus, targetStatus8 } from '~/global'
 
 onMounted(() => {
   startStatus.value = startStatus8
   targetStatus.value = targetStatus8
 })
+</script>
+
+<script lang="ts">
+export default {
+  methods: {
+    solvebtn() {
+      result.value = []
+      close.value = []
+      open.value = []
+      isSolved.value = false
+      solve.value()
+    },
+  },
+}
 </script>
 
 <template>
@@ -29,7 +43,7 @@ onMounted(() => {
     </div>
     <div flex="~ col" mb-10>
       <div flex="~ center wrap">
-        <button btn p="x4 y2" @click="solve()">
+        <button btn p="x4 y2" @click="solvebtn()">
           <span tracking-1 pl1>开始求解</span>
         </button>
       </div>
