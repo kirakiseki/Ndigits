@@ -12,8 +12,8 @@ const scrollWidth = ref(0)
 watchEffect(() => {
   nodes.value = [...new Set(result.value.concat(close.value).concat(open.value).sort((a, b) => a.layer - b.layer))]
   nodesLayer.value = groupByLayer.value(nodes.value)
-  // for (let layer of nodesLayer.value)
-  //   layer = layer.sort((a, b) => a.fvalue - b.fvalue)
+  for (let layer of nodesLayer.value)
+    layer = layer.sort((a, b) => a.fvalue - b.fvalue)
 })
 
 function initCanvas(canvas: HTMLCanvasElement, width = scrollWidth.value, height = baseFontSize.value * 7.5, _dpi?: number) {
